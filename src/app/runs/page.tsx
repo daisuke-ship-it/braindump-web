@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { isAuthenticated } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
-import { RunCard } from "@/components/run-card";
 import { PipelineRun } from "@/lib/types";
 import { LogoutButton } from "@/components/logout-button";
+import { RunsList } from "@/components/runs-list";
 
 export const dynamic = "force-dynamic";
 
@@ -29,20 +29,7 @@ export default async function RunsPage() {
         </div>
       </header>
       <main className="flex-1 px-4 py-6 max-w-2xl mx-auto w-full">
-        {typedRuns.length === 0 ? (
-          <div className="text-center py-20 text-foreground/30">
-            <p className="text-lg">パイプライン実行なし</p>
-            <p className="text-sm mt-2">
-              /publish でパイプラインを開始するとここに表示されます
-            </p>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {typedRuns.map((run) => (
-              <RunCard key={run.id} run={run} />
-            ))}
-          </div>
-        )}
+        <RunsList initialRuns={typedRuns} />
       </main>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { PipelineRun, PipelineArtifact, PipelineDecision, PHASES } from "@/lib/types";
+import { PipelineRun, PipelineArtifact, PipelineDecision, PHASES, DECISION_PHASES } from "@/lib/types";
 import { MarkdownViewer } from "@/components/markdown-viewer";
 import { DecisionPanel } from "@/components/decision-panel";
 import { ChevronDown } from "lucide-react";
@@ -79,10 +79,12 @@ export function RunDetail({
   run: initialRun,
   artifacts: initialArtifacts,
   decisions: initialDecisions,
-  decisionPoint,
-  isWaiting,
+  decisionPoint: initialDecisionPoint,
+  isWaiting: initialIsWaiting,
 }: Props) {
+  const [run, setRun] = useState(initialRun);
   const [artifacts, setArtifacts] = useState(initialArtifacts);
+  const [decisions, setDecisions] = useState(initialDecisions);
   const [expandedArtifact, setExpandedArtifact] = useState<string | null>(
     // Auto-expand the latest artifact
     initialArtifacts.length > 0
@@ -90,10 +92,29 @@ export function RunDetail({
       : null
   );
 
-  // Realtime subscription for new artifacts
+  // Derive decision state from run
+  const activeDecisionPoint = Object.entries(DECISION_PHASES).find(
+    ([, phase]) => phase === run.current_phase
+  );
+  const decisionPoint = activeDecisionPoint ? Number(activeDecisionPoint[0]) : initialDecisionPoint;
+  const isWaiting = run.status === "waiting_decision";
+
+  // Realtime subscription for run status, artifacts, and decisions
   useEffect(() => {
     const channel = supabase
       .channel(`run-${initialRun.id}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "bdp_runs",
+          filter: `id=eq.${initialRun.id}`,
+        },
+        (payload) => {
+          setRun(payload.new as PipelineRun);
+        }
+      )
       .on(
         "postgres_changes",
         {
@@ -104,7 +125,9 @@ export function RunDetail({
         },
         (payload) => {
           if (payload.eventType === "INSERT") {
-            setArtifacts((prev) => [...prev, payload.new as PipelineArtifact]);
+            const newArtifact = payload.new as PipelineArtifact;
+            setArtifacts((prev) => [...prev, newArtifact]);
+            setExpandedArtifact(newArtifact.artifact_type);
           } else if (payload.eventType === "UPDATE") {
             setArtifacts((prev) =>
               prev.map((a) =>
@@ -114,6 +137,18 @@ export function RunDetail({
               )
             );
           }
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "bdp_decisions",
+          filter: `run_id=eq.${initialRun.id}`,
+        },
+        (payload) => {
+          setDecisions((prev) => [...prev, payload.new as PipelineDecision]);
         }
       )
       .subscribe();
@@ -130,7 +165,7 @@ export function RunDetail({
   })).filter((g) => g.artifacts.length > 0);
 
   const hasDecision = (dp: number) =>
-    initialDecisions.some((d) => d.decision_point === dp);
+    decisions.some((d) => d.decision_point === dp);
 
   return (
     <div className="flex flex-col gap-4">
@@ -176,7 +211,7 @@ export function RunDetail({
       {/* Decision panel */}
       {isWaiting && decisionPoint && (
         <DecisionPanel
-          run={initialRun}
+          run={run}
           decisionPoint={decisionPoint}
           existingDecision={hasDecision(decisionPoint)}
           artifactContent={getDecisionArtifactContent(decisionPoint, artifacts)}
@@ -184,14 +219,14 @@ export function RunDetail({
       )}
 
       {/* Past decisions */}
-      {initialDecisions.length > 0 && (
+      {decisions.length > 0 && (
         <section className="rounded-xl bg-surface border border-border overflow-hidden">
           <div className="px-4 py-2.5 bg-foreground/[0.02] border-b border-border">
             <span className="text-xs font-medium text-foreground/40 uppercase tracking-wider">
               判断履歴
             </span>
           </div>
-          {initialDecisions.map((d) => (
+          {decisions.map((d) => (
             <div key={d.id} className="px-4 py-3 border-b border-border last:border-b-0">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-xs font-medium text-accent">
