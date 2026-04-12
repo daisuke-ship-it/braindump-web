@@ -41,9 +41,11 @@ export function RunsList({ initialRuns }: { initialRuns: PipelineRun[] }) {
 
   if (runs.length === 0) {
     return (
-      <div className="text-center py-20 text-foreground/30">
-        <p className="text-lg">パイプライン実行なし</p>
-        <p className="text-sm mt-2">
+      <div className="text-center py-20" style={{ color: "var(--text-tertiary)" }}>
+        <p style={{ fontFamily: "var(--font-display)", fontSize: "21px", fontWeight: 400 }}>
+          パイプライン実行なし
+        </p>
+        <p className="text-sm mt-3">
           /publish でパイプラインを開始するとここに表示されます
         </p>
       </div>
@@ -51,7 +53,7 @@ export function RunsList({ initialRuns }: { initialRuns: PipelineRun[] }) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       {runs.map((run) => (
         <RunCard key={run.id} run={run} />
       ))}

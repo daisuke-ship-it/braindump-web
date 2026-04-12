@@ -22,9 +22,27 @@ export default async function RunsPage() {
 
   return (
     <div className="flex flex-col min-h-full">
-      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur border-b border-border px-4 py-3">
+      <header
+        className="sticky top-0 z-10 px-4 py-3"
+        style={{
+          background: "rgba(0, 0, 0, 0.8)",
+          backdropFilter: "saturate(180%) blur(20px)",
+          WebkitBackdropFilter: "saturate(180%) blur(20px)",
+          borderBottom: "1px solid var(--border)",
+        }}
+      >
         <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <h1 className="text-lg font-semibold">パイプライン</h1>
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "21px",
+              fontWeight: 600,
+              lineHeight: 1.19,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            パイプライン
+          </h1>
           <LogoutButton />
         </div>
       </header>

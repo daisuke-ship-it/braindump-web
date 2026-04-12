@@ -13,9 +13,10 @@ export function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="text-sm text-foreground/40 hover:text-foreground/60 transition"
+      className="text-xs transition-colors"
+      style={{ color: "var(--text-tertiary)", letterSpacing: "-0.01em" }}
     >
-      logout
+      ログアウト
     </button>
   );
 }
