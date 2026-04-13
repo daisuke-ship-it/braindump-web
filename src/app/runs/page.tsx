@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from "@/lib/supabase";
 import { PipelineRun } from "@/lib/types";
 import { LogoutButton } from "@/components/logout-button";
 import { RunsList } from "@/components/runs-list";
+import { SyncButton } from "@/components/sync-button";
 
 export const dynamic = "force-dynamic";
 
@@ -43,7 +44,10 @@ export default async function RunsPage() {
           >
             パイプライン
           </h1>
-          <LogoutButton />
+          <div className="flex items-center gap-3">
+            <SyncButton />
+            <LogoutButton />
+          </div>
         </div>
       </header>
       <main className="flex-1 px-4 py-6 max-w-2xl mx-auto w-full">

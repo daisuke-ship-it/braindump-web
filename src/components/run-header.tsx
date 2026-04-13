@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { PipelineRun, ARTICLE_TYPES } from "@/lib/types";
 import { PhaseIndicator } from "./phase-indicator";
+import { SyncButton } from "./sync-button";
 import Link from "next/link";
 
 const STATUS_LABELS: Record<string, { label: string; color: string; bg: string }> = {
@@ -52,14 +53,15 @@ export function RunHeader({ initialRun }: { initialRun: PipelineRun }) {
       }}
     >
       <div className="max-w-3xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <Link
-            href="/runs"
-            className="text-sm transition-colors"
-            style={{ color: "var(--link)", letterSpacing: "-0.016em" }}
-          >
-            &larr; 一覧
-          </Link>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/runs"
+              className="text-sm transition-colors"
+              style={{ color: "var(--link)", letterSpacing: "-0.016em" }}
+            >
+              &larr; 一覧
+            </Link>
           {typeLabel && (
             <span
               className="text-xs font-medium px-2 py-0.5 rounded-full"
@@ -74,6 +76,8 @@ export function RunHeader({ initialRun }: { initialRun: PipelineRun }) {
           >
             {status.label}
           </span>
+          </div>
+          <SyncButton />
         </div>
         <h1
           style={{
