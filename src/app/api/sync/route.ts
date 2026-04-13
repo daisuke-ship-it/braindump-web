@@ -19,7 +19,13 @@ const IDEAS_DIR =
   );
 
 const ARTIFACT_PHASE: Record<string, string> = {
+  "phase1-melchior": "phase1",
+  "phase1-balthasar": "phase1",
+  "phase1-caspar": "phase1",
+  "phase1-raziel": "phase1",
+  "phase1-samael": "phase1",
   "divergence-report": "phase1_5",
+  "material-picks": "phase1_5",
   structure: "phase2",
   enriched: "phase2_5",
   "chapter-selections": "phase3",
@@ -50,6 +56,12 @@ function fileToArtifactType(filename: string, runId: string): string | null {
   const name = basename(filename, ".md");
   const suffix = name.replace(`-${runId}`, "").replace(`_${runId}`, "");
   const mappings: [RegExp, string][] = [
+    [/^phase1-melchior/, "phase1-melchior"],
+    [/^phase1-balthasar/, "phase1-balthasar"],
+    [/^phase1-caspar/, "phase1-caspar"],
+    [/^phase1-raziel/, "phase1-raziel"],
+    [/^phase1-samael/, "phase1-samael"],
+    [/^material-picks/, "material-picks"],
     [/^divergence-report/, "divergence-report"],
     [/^structure/, "structure"],
     [/^enriched/, "enriched"],

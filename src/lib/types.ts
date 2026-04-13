@@ -30,8 +30,8 @@ export type PipelineDecision = {
 };
 
 export const PHASES = [
-  { key: "phase1", label: "発散", description: "4体並行" },
-  { key: "phase1_5", label: "統合", description: "divergence-report" },
+  { key: "phase1", label: "発散", description: "5体並行" },
+  { key: "phase1_5", label: "統合", description: "divergence-report + material-picks" },
   { key: "phase2", label: "構成", description: "structure" },
   { key: "phase2_5", label: "検証", description: "enriched" },
   { key: "phase3", label: "スケッチ", description: "chapter patterns" },

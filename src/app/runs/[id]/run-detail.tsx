@@ -16,11 +16,13 @@ type Props = {
 };
 
 const ARTIFACT_LABELS: Record<string, string> = {
-  "melchior-output": "MELCHIOR（逆張り）",
-  "balthasar-output": "BALTHASAR（素材発掘）",
-  "caspar-output": "CASPAR（切り口）",
-  "raziel-output": "RAZIEL（外部リサーチ）",
-  "divergence-report": "発散レポート（統合）",
+  "phase1-melchior": "MELCHIOR（逆張り）",
+  "phase1-balthasar": "BALTHASAR（素材発掘）",
+  "phase1-caspar": "CASPAR（切り口）",
+  "phase1-raziel": "RAZIEL（外部リサーチ）",
+  "phase1-samael": "SAMAEL（異分野アナロジー）",
+  "divergence-report": "発散レポート（全文結合）",
+  "material-picks": "素材ピック（PICK/DROP）",
   structure: "構成案",
   enriched: "検証済み構成",
   "chapter-selections": "章別パターン",
@@ -39,7 +41,7 @@ const ARTIFACT_LABELS: Record<string, string> = {
 };
 
 const DECISION_ARTIFACT_MAP: Record<number, string[]> = {
-  1: ["melchior-output", "balthasar-output", "caspar-output", "raziel-output", "divergence-report"],
+  1: ["phase1-melchior", "phase1-balthasar", "phase1-caspar", "phase1-raziel", "phase1-samael", "divergence-report", "material-picks"],
   2: ["structure"],
   3: ["chapter-selections"],
   4: ["draft"],
