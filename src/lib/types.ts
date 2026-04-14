@@ -5,6 +5,7 @@ export type PipelineRun = {
   article_type: 1 | 2 | 3 | null;
   current_phase: string;
   status: "running" | "waiting_decision" | "completed" | "failed";
+  publish_order: number | null;
   created_at: string;
   updated_at: string;
 };

@@ -3,13 +3,12 @@ import { isAuthenticated } from "@/lib/auth";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { PipelineRun } from "@/lib/types";
 import { LogoutButton } from "@/components/logout-button";
-import { RunsList } from "@/components/runs-list";
-import { SyncButton } from "@/components/sync-button";
+import { PublishQueue } from "@/components/publish-queue";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-export default async function RunsPage() {
+export default async function QueuePage() {
   if (!(await isAuthenticated())) {
     redirect("/login");
   }
@@ -18,9 +17,16 @@ export default async function RunsPage() {
   const { data: runs } = await db
     .from("bdp_runs")
     .select("*")
-    .order("updated_at", { ascending: false });
+    .eq("status", "completed")
+    .order("publish_order", { ascending: true, nullsFirst: false });
 
   const typedRuns = (runs ?? []) as PipelineRun[];
+
+  // Split into queued (has publish_order) and unqueued
+  const queued = typedRuns
+    .filter((r) => r.publish_order != null)
+    .sort((a, b) => a.publish_order! - b.publish_order!);
+  const unqueued = typedRuns.filter((r) => r.publish_order == null);
 
   return (
     <div className="flex flex-col min-h-full">
@@ -34,35 +40,31 @@ export default async function RunsPage() {
         }}
       >
         <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <h1
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "21px",
-              fontWeight: 600,
-              lineHeight: 1.19,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            パイプライン
-          </h1>
           <div className="flex items-center gap-3">
             <Link
-              href="/queue"
-              className="px-3 py-1.5 rounded-full text-xs font-medium transition-opacity"
+              href="/runs"
+              className="text-sm transition-colors"
+              style={{ color: "var(--link)", letterSpacing: "-0.016em" }}
+            >
+              &larr; 一覧
+            </Link>
+            <h1
               style={{
-                background: "rgba(48, 209, 88, 0.12)",
-                color: "#30d158",
+                fontFamily: "var(--font-display)",
+                fontSize: "21px",
+                fontWeight: 600,
+                lineHeight: 1.19,
+                letterSpacing: "-0.01em",
               }}
             >
               投稿キュー
-            </Link>
-            <SyncButton />
-            <LogoutButton />
+            </h1>
           </div>
+          <LogoutButton />
         </div>
       </header>
       <main className="flex-1 px-4 py-6 max-w-2xl mx-auto w-full">
-        <RunsList initialRuns={typedRuns} />
+        <PublishQueue initialQueued={queued} initialUnqueued={unqueued} />
       </main>
     </div>
   );
