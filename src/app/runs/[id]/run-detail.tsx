@@ -28,10 +28,10 @@ const ARTIFACT_LABELS: Record<string, string> = {
   "chapter-selections": "章別パターン",
   draft: "ドラフト（AI版）",
   draft_edit: "ドラフト（加筆版）",
-  "density-review": "MICHAEL（密度レビュー）",
+  "density-review": "MICHAEL（密度レビュー）",  // v3以前の過去データ用
   "voice-review": "SANDALPHON（声レビュー）",
-  "structure-review": "METATRON（構成レビュー）",
-  convergence: "品質統合判定（RAGUEL）",
+  "structure-review": "METATRON（構成レビュー）",  // v3以前の過去データ用
+  convergence: "品質統合判定（RAGUEL）",  // v3以前の過去データ用
   "reader-feedback": "読者フィードバック",
   "reader-zero": "AZRAEL（ゼロコンテキスト）",
   "reader-context": "AZRAEL（コンテキスト有）",
@@ -45,7 +45,7 @@ const DECISION_ARTIFACT_MAP: Record<number, string[]> = {
   2: ["structure"],
   3: ["chapter-selections"],
   4: ["draft"],
-  5: ["density-review", "voice-review", "structure-review", "convergence"],
+  5: ["voice-review"],
 };
 
 function getDecisionArtifactContent(

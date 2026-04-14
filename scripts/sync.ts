@@ -64,7 +64,7 @@ const ARTIFACT_PHASE: Record<string, string> = {
   "density-review": "phase5",
   "voice-review": "phase5",
   "structure-review": "phase5",
-  convergence: "phase5_5",
+  convergence: "phase5",
   "reader-feedback": "phase6",
   "reader-zero": "phase6",
   "reader-context": "phase6",
@@ -82,7 +82,6 @@ const PHASE_ORDER = [
   "phase3",
   "phase4",
   "phase5",
-  "phase5_5",
   "phase6",
   "phase7",
 ];
@@ -93,7 +92,7 @@ const DECISION_PHASE: Record<string, number> = {
   phase2: 2,
   phase3: 3,
   phase4: 4,
-  phase5_5: 5,
+  phase5: 5,
 };
 
 // Map filename pattern to artifact type

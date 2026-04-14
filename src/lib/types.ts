@@ -36,8 +36,7 @@ export const PHASES = [
   { key: "phase2_5", label: "検証", description: "enriched" },
   { key: "phase3", label: "スケッチ", description: "chapter patterns" },
   { key: "phase4", label: "執筆", description: "draft" },
-  { key: "phase5", label: "品質評価", description: "3体並行" },
-  { key: "phase5_5", label: "統合判定", description: "convergence" },
+  { key: "phase5", label: "品質評価", description: "voice_checker" },
   { key: "phase6", label: "読者", description: "reader feedback" },
   { key: "phase7", label: "出版", description: "publisher" },
 ] as const;
@@ -47,7 +46,7 @@ export const DECISION_PHASES: Record<number, string> = {
   2: "phase2",
   3: "phase3",
   4: "phase4",
-  5: "phase5_5",
+  5: "phase5",
 };
 
 export const ARTICLE_TYPES: Record<number, string> = {

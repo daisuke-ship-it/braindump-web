@@ -34,7 +34,7 @@ const ARTIFACT_PHASE: Record<string, string> = {
   "density-review": "phase5",
   "voice-review": "phase5",
   "structure-review": "phase5",
-  convergence: "phase5_5",
+  convergence: "phase5",
   "reader-feedback": "phase6",
   "reader-zero": "phase6",
   "reader-context": "phase6",
@@ -45,11 +45,11 @@ const ARTIFACT_PHASE: Record<string, string> = {
 
 const PHASE_ORDER = [
   "phase1", "phase1_5", "phase2", "phase2_5", "phase3",
-  "phase4", "phase5", "phase5_5", "phase6", "phase7",
+  "phase4", "phase5", "phase6", "phase7",
 ];
 
 const DECISION_PHASE: Record<string, number> = {
-  phase1_5: 1, phase2: 2, phase3: 3, phase4: 4, phase5_5: 5,
+  phase1_5: 1, phase2: 2, phase3: 3, phase4: 4, phase5: 5,
 };
 
 function fileToArtifactType(filename: string, runId: string): string | null {
